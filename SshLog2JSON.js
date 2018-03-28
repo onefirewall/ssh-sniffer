@@ -1,12 +1,12 @@
 SEPARATOR = /^--([0-9a-f]+)-([A-Z])--$/;
 REGULAR_EXP_IPV4 = ^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$;
 
-var SshLog2JSON = function (){
+var SshLog2JSON = function () {
 	var fs = require('fs')
 	var readline = require('readline')
 	var outstream = new (require('stream'))()
 
-	this.async = function(filename, callback){
+	this.async = function (filename, callback) {
 
 			var instream = fs.createReadStream(filename)
 			var rl = readline.createInterface(instream, outstream)
