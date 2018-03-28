@@ -1,6 +1,5 @@
 var sshLog2JSON = require('./SshLog2JSON.js')
 
-
 var log2json = new SshLog2JSON()
 
 log2json.async("/tmp/sshlogs.log",
