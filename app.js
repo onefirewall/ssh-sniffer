@@ -3,5 +3,5 @@ var sshLog2JSON = require('./SshLog2JSON.js'),
 
 log2json.async("./sshlogs.log",
 function callback(jsonArray) {
-    console.log(JSON.stringify(jsonArray[0]))
+    console.log(JSON.stringify(jsonArray[0]));
 });
