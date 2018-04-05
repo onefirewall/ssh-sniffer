@@ -12,7 +12,6 @@ var SshLog2JSON = function () {
              rl = readline.createInterface(instream, outstream),
              jsonArray = [];
 
-
         rl.on('line', function (line) {
              line = line.trim();
              var fsWrite = require('fs');
