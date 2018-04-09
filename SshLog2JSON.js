@@ -17,14 +17,23 @@ var SshLog2JSON = function () {
              line = line.trim();
              var fsWrite = require('fs');
              lineIp = line.match(REGULAR_EXP_IPV4);
+             var listOfDate = [];
 
              if (lineIp) {
                  var lineTimeStamp = line.match(TIME_STAMP_EXP),
                      record = {};
-                 record.ip = lineIp;
-                 record.date = lineTimeStamp;
-                 record.typeInfo = null;
-                 jsonArray.push(record);
+                     var pos = jsonArray.indexOf(lineIp);
+                     if(pos > -1){
+                        console.log('ip already present');
+                        jsonArray[pos].listOfDate.push(lineTimeStamp);
+                    }
+                    else {
+                        console.log('new ip');
+                        record.ip = lineIp;
+                        record.listDate = listOfDate.push(lineTimeStamp);
+                        record.typeInfo = null;
+                        jsonArray.push(record);
+                    }
              }
         });
 
