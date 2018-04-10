@@ -19,9 +19,9 @@ var SshLog2JSON = function () {
              var listOfDate = [];
              if (lineIp) {
                  var lineTimeStamp = line.match(TIME_STAMP_EXP),
-                     record = {},
+                     record = {};
                  _.map(lineIp, function (item) {
-                     if (!isEmpty(record)) {
+                     if (!_.isEmpty(record)) {
                         if (record.ip.split('.') === lineIp[0].split('.')) {
                             jsonArray.listOfDate.push(lineTimeStamp);
                         }
