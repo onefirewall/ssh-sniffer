@@ -25,7 +25,9 @@ var SshLog2JSON = function () {
 
                  _.map(listOfIp, function (item) {
                      if (record.ip == item) {
-                         record.listOfDate.push(lineTimeStamp);
+                         var arrayDate = record.listOfDate;
+                         arrayDate.push(lineTimeStamp);
+                         record.listOfDate=arrayDate;
                      } else {
                          record.ip = item;
                          record.listOfDate = lineTimeStamp;
