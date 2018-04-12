@@ -5,13 +5,13 @@ var SshLog2JSON = function () {
     var _ = require('underscore'),
         fs = require('fs'),
         readline = require('readline'),
-        outstream = new (require('stream'))();
+        outstream = new (require('stream'))(),
+        record = {};
 
     this.async = function (filename, callback) {
         var instream = fs.createReadStream(filename),
             rl = readline.createInterface(instream, outstream),
-            jsonArray = [],
-            record = {};
+            jsonArray = [];
 
         rl.on('line', function (line) {
              line = line.trim();
@@ -22,12 +22,15 @@ var SshLog2JSON = function () {
              if (lineIp) {
                  var lineTimeStamp = line.match(TIME_STAMP_EXP);
                  listOfIp.push(lineIp[0]);
-
                  _.map(listOfIp, function (item) {
-                     if (record.ip == item) {
-                         var arrayDate = record.listOfDate;
-                         arrayDate.push(lineTimeStamp);
-                         record.listOfDate = arrayDate;
+                     if (!_.isEmpty(jsonArray[0])) {
+                        _.map(jsonArray[0], function (obj) {
+                            if (obj == item) {
+                                 var arrayDate = record.listOfDate;
+                                 arrayDate.push(lineTimeStamp);
+                                 jsonArray[0].listOfDate = arrayDate;
+                            }
+                        });
                      } else {
                          record.ip = item;
                          record.listOfDate = lineTimeStamp;
