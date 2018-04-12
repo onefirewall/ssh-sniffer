@@ -27,7 +27,7 @@ var SshLog2JSON = function () {
                         _.map(jsonArray[0], function (obj) {
                             if (obj == item) {
                                  var arrayDate = record.listOfDate;
-                                 arrayDate.push(lineTimeStamp);
+                                 arrayDate.push(lineTimeStamp[0]);
                                  jsonArray[0].listOfDate = arrayDate;
                             }
                         });
