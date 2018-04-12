@@ -46,5 +46,6 @@ var SshLog2JSON = function () {
             callback(jsonArray);
         });
     }
-};         
+};       
+
 module.exports = SshLog2JSON;
