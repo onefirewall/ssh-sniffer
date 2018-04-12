@@ -36,8 +36,8 @@ var SshLog2JSON = function () {
                          record.listOfDate = lineTimeStamp;
                          record.index = lineIp.index;
                          record.typeInfo = lineIp.input;
-                     }
-                     jsonArray.push(record);
+                         jsonArray.push(record);
+                     } 
                  });
              }
         });
