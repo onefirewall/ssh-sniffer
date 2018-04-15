@@ -10,20 +10,20 @@ var SshLog2JSON = function () {
     this.async = function (filename, callback) {
         var instream = fs.createReadStream(filename),
             rl = readline.createInterface(instream, outstream),
-            jsonArray = [],
-            record = {};
+            jsonArray = [];
 
         rl.on('line', function (line) {
              line = line.trim();
              var fsWrite = require('fs'),
                  lineIp = line.match(REGULAR_EXP_IPV4);
+                 lineTimeStamp = line.match(TIME_STAMP_EXP);
+
              if (lineIp) {
-                 var lineTimeStamp = line.match(TIME_STAMP_EXP);
-                 record.ip = lineIp[0];
-                 record.listOfDate = lineTimeStamp;
-                 record.index = lineIp.index;
-                 record.typeInfo = lineIp.input;
-                 jsonArray.push(record);
+                jsonArray.push({
+                    ip: lineIp[0],
+                    listOfDate: lineTimeStamp,
+                    typeInfo: lineIp.input
+                });
              }
         });
 
@@ -36,9 +36,9 @@ var SshLog2JSON = function () {
 function validationJsonArray(jsonArray) {
     var validationJsonArray = [];
     for (var key in jsonArray) {
-        if (!_.isEmpty(validationJsonArray[0])) {
+        if (!_.isEmpty(validationJsonArray)) {
             for (var index in validationJsonArray) {
-                if (validationJsonArray[index].ip == jsonArray[key].ip) {
+                if ((validationJsonArray[index].ip == jsonArray[key].ip) && _.contains(validationJsonArray[index].listOfDate, jsonArray[key].ip)) {
                     validationJsonArray[index].listOfDate.push(jsonArray[key].listOfDate[0]);
                 } else {
                     validationJsonArray.push(jsonArray[key]);
