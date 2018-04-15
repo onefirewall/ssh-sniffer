@@ -38,7 +38,7 @@ function validationJsonArray(jsonArray) {
     for (var key in jsonArray) {
         if (!_.isEmpty(validationJsonArray)) {
             for (var index in validationJsonArray) {
-                if ((validationJsonArray[index].ip == jsonArray[key].ip) && _.contains(validationJsonArray[index].listOfDate, jsonArray[key].ip)) {
+                if ((validationJsonArray[index].ip == jsonArray[key].ip) && !_.contains(validationJsonArray[index].listOfDate, jsonArray[key].ip)) {
                     validationJsonArray[index].listOfDate.push(jsonArray[key].listOfDate[0]);
                 } else {
                     validationJsonArray.push(jsonArray[key]);
