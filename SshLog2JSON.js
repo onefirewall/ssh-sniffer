@@ -1,5 +1,6 @@
 REGULAR_EXP_IPV4 = /\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/;
 TIME_STAMP_EXP = /([A-Za-z]{3}) ([0-9]{2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})/gi;
+var _ = require('underscore');
 
 var SshLog2JSON = function () {
     var fs = require('fs'),
