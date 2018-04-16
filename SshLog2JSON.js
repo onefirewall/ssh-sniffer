@@ -23,8 +23,8 @@ var SshLog2JSON = function () {
 
                 if (!_.isEmpty(jsonArray)) {
                     _.map(jsonArray, function (item) {
-                        if (lineIp[0] == item.ip) {  
-                            if (!_.contains(item.listOfDate, lineTimeStamp[0])) {
+                        if (lineIp[0] == item.ip) {  
+                            if (!_.contains(item.listOfDate, lineTimeStamp[0])) {
                                 item.listOfDate.push(lineTimeStamp[0]);
                             }
                             isIPPresent = true;
@@ -43,9 +43,19 @@ var SshLog2JSON = function () {
         });
 
         rl.on('close', function (line) {
-            callback(jsonArray);
+            callback(validateJsonArray(jsonArray));
         });
     }
+};
+
+function validateJsonArray(arrayList) {
+    var validElements = [];
+    _.map(arrayList, function (item) {
+        if (item.listOfDate.length > 5) {
+            validElements.push(item);
+        }
+    });
+    return validElements;
 };
 
 module.exports = SshLog2JSON;
