@@ -17,22 +17,29 @@ var SshLog2JSON = function () {
              var fsWrite = require('fs'),
                  lineIp = line.match(REGULAR_EXP_IPV4);
 
-             if (lineIp) {
-                var lineTimeStamp = line.match(TIME_STAMP_EXP);
+            if (lineIp) {
+                var lineTimeStamp = line.match(TIME_STAMP_EXP),
+                    isIPPresent = false;
+
                 if (!_.isEmpty(jsonArray)) {
                     _.map(jsonArray, function (item) {
-                        if ((lineIp[0] == item.ip) && !_.contains(item.listOfDate, lineTimeStamp[0])) {
-                            item.listOfDate.push(lineTimeStamp[0]);
+                        if (lineIp[0] == item.ip) {  
+                            if (!_.contains(item.listOfDate, lineTimeStamp[0])) {
+                                item.listOfDate.push(lineTimeStamp[0]);
+                            }
+                            isIPPresent = true;
                         }
                     });
-                } else {
+                }
+
+                if (!isIPPresent) {
                     jsonArray.push({
                         ip: lineIp[0],
                         listOfDate: lineTimeStamp,
                         typeInfo: lineIp.input
                     });
                 }
-             }
+            }
         });
 
         rl.on('close', function (line) {
