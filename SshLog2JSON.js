@@ -16,9 +16,9 @@ var SshLog2JSON = function () {
              line = line.trim();
              var fsWrite = require('fs'),
                  lineIp = line.match(REGULAR_EXP_IPV4);
-                 lineTimeStamp = line.match(TIME_STAMP_EXP);
 
              if (lineIp) {
+                var lineTimeStamp = line.match(TIME_STAMP_EXP);
                 jsonArray.push({
                     ip: lineIp[0],
                     listOfDate: lineTimeStamp,
@@ -35,19 +35,19 @@ var SshLog2JSON = function () {
 
 function validationJsonArray(jsonArray) {
     var validationJsonArray = [];
-    for (var key in jsonArray) {
+    _.map(jsonArray, function (item) {
         if (!_.isEmpty(validationJsonArray)) {
-            for (var index in validationJsonArray) {
-                if ((validationJsonArray[index].ip == jsonArray[key].ip) && !_.contains(validationJsonArray[index].listOfDate, jsonArray[key].ip)) {
-                    validationJsonArray[index].listOfDate.push(jsonArray[key].listOfDate[0]);
+            _.map(validationJsonArray, function (data) {
+                if ((data.ip == item.ip) && !_.contains(data.listOfDate, item.listOfDate[0])) {
+                    data.listOfDate.push(item.listOfDate[0]);
                 } else {
-                    validationJsonArray.push(jsonArray[key]);
+                    validationJsonArray.push(item);
                 }
-            }
+            });
         } else {
-            validationJsonArray.push(jsonArray[key]);
+            validationJsonArray.push(item);
         }
-    }
+    });
     return validationJsonArray;
 }
 
