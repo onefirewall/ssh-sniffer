@@ -19,36 +19,26 @@ var SshLog2JSON = function () {
 
              if (lineIp) {
                 var lineTimeStamp = line.match(TIME_STAMP_EXP);
-                jsonArray.push({
-                    ip: lineIp[0],
-                    listOfDate: lineTimeStamp,
-                    typeInfo: lineIp.input
-                });
+                if (!_.isEmpty(jsonArray)) {
+                    _.map(jsonArray, function (item) {
+                        if ((lineIp[0] == item.ip) && !_.contains(item.listOfDate, lineTimeStamp[0])) {
+                            item.listOfDate.push(lineTimeStamp[0]);
+                        }
+                    });
+                } else {
+                    jsonArray.push({
+                        ip: lineIp[0],
+                        listOfDate: lineTimeStamp,
+                        typeInfo: lineIp.input
+                    });
+                }
              }
         });
 
         rl.on('close', function (line) {
-            callback(validationJsonArray(jsonArray));
+            callback(jsonArray);
         });
     }
 };
-
-function validationJsonArray(jsonArray) {
-    var validationJsonArray = [];
-    _.map(jsonArray, function (item) {
-        if (!_.isEmpty(validationJsonArray)) {
-            _.map(validationJsonArray, function (data) {
-                if ((data.ip == item.ip) && !_.contains(data.listOfDate, item.listOfDate[0])) {
-                    data.listOfDate.push(item.listOfDate[0]);
-                } else {
-                    validationJsonArray.push(item);
-                }
-            });
-        } else {
-            validationJsonArray.push(item);
-        }
-    });
-    return validationJsonArray;
-}
 
 module.exports = SshLog2JSON;
